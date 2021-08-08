@@ -92,11 +92,11 @@ const addItems = (value, flag) => {
 //Function to delete items from the list
 function deleteItem(e) {
     var itemDel = e.target;
-    console.log(itemDel);
+    // console.log(itemDel);
     // Deleting an item
     if (itemDel.className === "todo_del") {
         var content = itemDel.parentElement.parentElement;
-        console.content;
+        // console.content;
         // Animation
         // content.classList.add("fall");
         // console.log(content.innerText);
@@ -231,7 +231,7 @@ const getLocalTodo = () => {
     }
     if (!(localStorage.getItem("completedItems") === null)) {
         checkCompleted = JSON.parse(localStorage.getItem("completedItems"));
-        console.log(checkCompleted);
+        // console.log(checkCompleted);
         content.forEach(function (task) {
             checkCompleted.forEach(function (mark) {
                 if (task == mark) {
