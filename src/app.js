@@ -10,6 +10,7 @@ root.appendChild(form);
 const todo_input = document.createElement("input");
 todo_input.id = "todo_input";
 todo_input.setAttribute("type", "text");
+todo_input.setAttribute("placeholder", "Enter your text here");
 form.appendChild(todo_input);
 
 //Defining add button
@@ -43,11 +44,6 @@ opt3.value = "incomplete";
 opt3.innerText = "Incomplete";
 todo_filter.appendChild(opt3);
 
-//Defining the list
-const list = document.createElement("ul");
-list.id = "todo_list";
-root.appendChild(list);
-
 // Defining footer menu
 const menuList = document.createElement("footer");
 const removeMark = document.createElement("button");
@@ -58,11 +54,19 @@ removeList.innerText = "Clear list";
 menuList.appendChild(removeList);
 root.appendChild(menuList);
 
+//Defining the list
+const list = document.createElement("ul");
+list.id = "todo_list";
+root.appendChild(list);
+
 //Function to add list items
 const addItems = (value, flag) => {
     const item = document.createElement("li");
     item.innerHTML = value;
     item.classList.add("todo_item");
+    // Button list
+    var buttonList = document.createElement("div");
+    buttonList.classList.add("buttonList");
     //Complete Mark
     var checkBox = document.createElement("button");
     checkBox.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>';
@@ -72,8 +76,9 @@ const addItems = (value, flag) => {
     delBox.innerHTML = '<i class="fa fa-trash" aria-hidden="true"></i>';
     delBox.classList.add("todo_del");
     //Appending li components
-    item.appendChild(checkBox);
-    item.appendChild(delBox);
+    buttonList.appendChild(checkBox);
+    buttonList.appendChild(delBox);
+    item.appendChild(buttonList);
     // Adding check mark from the local history
     if (flag === 1) {
         item.classList.toggle("completed");
@@ -87,11 +92,13 @@ const addItems = (value, flag) => {
 //Function to delete items from the list
 function deleteItem(e) {
     var itemDel = e.target;
+    console.log(itemDel);
     // Deleting an item
     if (itemDel.className === "todo_del") {
-        var content = itemDel.parentElement;
+        var content = itemDel.parentElement.parentElement;
+        console.content;
         // Animation
-        content.classList.add("fall");
+        // content.classList.add("fall");
         // console.log(content.innerText);
         removeCompletedList(content.innerText);
         removelocalTodo(content.innerText);
@@ -99,9 +106,9 @@ function deleteItem(e) {
     }
     // Check completed task
     if (itemDel.className === "todo_check") {
-        var content = itemDel.parentElement;
+        var content = itemDel.parentElement.parentElement;
         if (content.classList[1] === "completed") {
-            console.log("Getting it!!");
+            // console.log("Getting it!!");
             content.classList.toggle("completed");
             removeCompletedList(content.innerText);
         } else {
@@ -114,7 +121,7 @@ function deleteItem(e) {
 
 // Checking the completed items
 function addCompletedList(val) {
-    console.log(val);
+    // console.log(val);
     let completedItems;
     if (localStorage.getItem("completedItems") === null) {
         completedItems = [];
@@ -122,7 +129,7 @@ function addCompletedList(val) {
         completedItems = JSON.parse(localStorage.getItem("completedItems"));
     }
     completedItems.push(val);
-    console.log(completedItems);
+    // console.log(completedItems);
     localStorage.setItem("completedItems", JSON.stringify(completedItems));
 }
 
@@ -131,26 +138,28 @@ function removeCompletedList(itemDel) {
     var completedList = JSON.parse(localStorage.getItem("completedItems"));
     // console.log(itemDel + itemDel.length);
     let count = 0;
-    completedList.forEach(function (task) {
-        // console.log(task + task.length);
-        var status = itemDel === task;
-        // console.log(status);
-        if (status) {
-            // console.log("Found!!");
-            completedList.splice(count, 1);
-            // console.log(content);
-        }
-        count++;
-    });
-    localStorage.removeItem("completedItems");
-    localStorage.setItem("completedItems", JSON.stringify(completedList));
+    if (!(completedList == null)) {
+        completedList.forEach(function (task) {
+            // console.log(task + task.length);
+            var status = itemDel === task;
+            // console.log(status);
+            if (status) {
+                // console.log("Found!!");
+                completedList.splice(count, 1);
+                // console.log(content);
+            }
+            count++;
+        });
+        localStorage.removeItem("completedItems");
+        localStorage.setItem("completedItems", JSON.stringify(completedList));
+    }
     count = 0;
 }
 
 // Function to filter todo
 const filterTodo = (e) => {
     var content = list.childNodes;
-    console.log(content);
+    // console.log(content);
     content.forEach(function (task) {
         switch (e.target.value) {
             case "all":
@@ -242,8 +251,13 @@ const getLocalTodo = () => {
 
 const head = () => {
     var task = document.getElementById("todo_input");
-    savelocalTodo(task.value);
-    addItems(task.value, "0");
+    // console.log("MSG:" + task.value + ":MSG");
+    if (task.value == "") {
+        alert("Write something to add!!!");
+    } else {
+        savelocalTodo(task.value);
+        addItems(task.value, "0");
+    }
 };
 
 document.addEventListener("DOMContentLoaded", getLocalTodo);
