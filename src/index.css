@@ -131,12 +131,19 @@ footer button {
     background-color: red;
     transition: all 0.3s ease;
 }
-@media (max-width: 400px) {
+@media (max-width: 512px) {
     #todo_input,
     #todo_add,
     .todo_filter,
     .select {
         width: auto;
+    }
+    #todo_input {
+        font-size: 1.25rem;
+        max-width: 40vw;
+    }
+    #todo_add {
+        min-width: 10vw;
     }
     .todo_filter {
         font-size: 1rem;
@@ -152,6 +159,39 @@ footer button {
     }
     .todo_item {
         font-size: 1rem;
+    }
+    .buttonList button {
+        min-width: 7.5vw;
+    }
+}
+@media (min-width: 512px) and (max-width: 1000px) {
+    #todo_input,
+    #todo_add,
+    .todo_filter,
+    .select {
+        width: auto;
+    }
+    #todo_input {
+        font-size: 1.5rem;
+        /* max-width: 40vw; */
+    }
+    #todo_add {
+        min-width: 10vw;
+    }
+    .todo_filter {
+        font-size: 1.25rem;
+    }
+    footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    footer button {
+        font-size: 1.25rem;
+    }
+    .todo_item {
+        font-size: 1.25rem;
     }
     .buttonList button {
         min-width: 7.5vw;
